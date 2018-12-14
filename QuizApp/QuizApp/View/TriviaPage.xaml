@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Converter="clr-namespace:QuizApp.Converter"
+             Padding="20" NavigationPage.HasBackButton="False"
+             xmlns:InputKit="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             x:Class="QuizApp.View.TriviaPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Converter:DifficultyColorConverter x:Key="diffToColor" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding Submit}" Text="End Test" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView HasUnevenRows="True" ItemsSource="{Binding Questions}" SelectionMode="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Frame IsClippedToBounds="True" HasShadow="True" BorderColor="Gray" 
+                                       Padding="0" Margin="10" BackgroundColor="White">
+                                    <StackLayout Padding="10">
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                            <Label Text="{Binding Position, StringFormat='Question {0}'}" HorizontalOptions="Start" HorizontalTextAlignment="Start" />
+                                            <Label Text="{Binding Difficulty}" TextColor="{Binding Difficulty, Converter={StaticResource diffToColor}}" 
+                                               HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" />
+                                        </StackLayout>
+
+                                        <Label HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" TextColor="Black" Text="{Binding Question}" />
+                                        <InputKit:RadioButtonGroupView Orientation="Vertical" >
+                                            <InputKit:RadioButton Text="{Binding OptionA}" Value="{Binding OptionA}" TextColor="Black" CircleColor="DodgerBlue" Clicked="AnswerSelected" CommandParameter="{Binding}" />
+                                            <InputKit:RadioButton Text="{Binding OptionB}" Value="{Binding OptionB}" TextColor="Black" CircleColor="DodgerBlue" Clicked="AnswerSelected" CommandParameter="{Binding}" />
+                                            <InputKit:RadioButton Text="{Binding OptionC}" Value="{Binding OptionC}" TextColor="Black" IsVisible="{Binding IsMultiple}" CircleColor="DodgerBlue" Clicked="AnswerSelected" CommandParameter="{Binding}" />
+                                            <InputKit:RadioButton Text="{Binding OptionD}" Value="{Binding OptionD}" TextColor="Black" IsVisible="{Binding IsMultiple}" CircleColor="DodgerBlue" Clicked="AnswerSelected" CommandParameter="{Binding}" />
+                                        </InputKit:RadioButtonGroupView>
+                                    </StackLayout>
+                                </Frame>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

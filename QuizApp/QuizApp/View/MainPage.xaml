@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:QuizApp"
+             xmlns:InputControl="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             x:Class="QuizApp.View.MainPage">
+    <StackLayout Padding="20">
+        <StackLayout x:Name="parameters" Spacing="20">
+
+            <InputControl:CheckBox x:Name="box" BorderColor="DodgerBlue" Text="Use Token to generate questions" CheckChanged="TokenEvent" HorizontalOptions="End" />
+
+            <StackLayout Spacing="0" >
+                <Label Text="{Binding Source={x:Reference questions}, Path=Value,StringFormat='Number of Questions: {0}'}" TextColor="Black" />
+                <Stepper x:Name="questions" Increment="10" Minimum="10" Maximum="50" Value="10" />
+            </StackLayout>
+
+            <Picker x:Name="category" Title="Category" TextColor="Black" />
+
+            <Picker x:Name="difficulty" Title="Difficulty" TextColor="Black">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Any Difficulty</x:String>
+                        <x:String>Easy</x:String>
+                        <x:String>Medium</x:String>
+                        <x:String>Hard</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <Picker x:Name="type" Title="Type" TextColor="Black">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Any Type</x:String>
+                        <x:String>Multiple Choice</x:String>
+                        <x:String>True/False</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <Button Text="Get Questions" CornerRadius="16" BackgroundColor="DodgerBlue" TextColor="White" Clicked="GenerateTrivia" HorizontalOptions="Center" />
+        </StackLayout>
+
+        <StackLayout x:Name="token" IsVisible="False" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <ActivityIndicator Color="DodgerBlue" IsRunning="True" VerticalOptions="Center" HorizontalOptions="Center" />
+            <Label Text="Generating Token" TextColor="DodgerBlue" HorizontalOptions="Center" 
+                   VerticalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+        </StackLayout>
+
+        <StackLayout x:Name="question" IsVisible="False" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+            <ActivityIndicator Color="DodgerBlue" IsRunning="True" VerticalOptions="Center" HorizontalOptions="Center" />
+            <Label Text="Generating Questions" TextColor="DodgerBlue" HorizontalOptions="Center" 
+                   VerticalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
