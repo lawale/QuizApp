@@ -1,6 +1,7 @@
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using QuizApp.View;
 
 [assembly: XamlCompilation (XamlCompilationOptions.Compile)]
 namespace QuizApp
@@ -11,8 +12,9 @@ namespace QuizApp
 		{
 			InitializeComponent();
 
-			//MainPage = new MainPage();
-		}
+			MainPage = new NavigationPage(new MainPage());
+
+        }
 
 		protected override void OnStart ()
 		{
