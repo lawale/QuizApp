@@ -9,7 +9,6 @@ namespace QuizApp.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TriviaPage : ContentPage
     {
-        private bool Finish = false;
         private new TriviaPageVm BindingContext => base.BindingContext as TriviaPageVm;
         public TriviaPage()
         {
@@ -33,15 +32,7 @@ namespace QuizApp.View
 
         private void Quit()
         {
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                var response = await DisplayAlert("", "Do you want to stop the test?", "Yes", "No");
-                if (response)
-                {
-                    BindingContext.Submit.Execute(null);
-                    base.OnBackButtonPressed();
-                }
-            });
+            Device.BeginInvokeOnMainThread(() => BindingContext.Submit.Execute(null));
         }
     }
 }

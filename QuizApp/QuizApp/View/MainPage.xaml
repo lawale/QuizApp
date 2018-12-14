@@ -1,13 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:QuizApp"
+             xmlns:local="clr-namespace:QuizApp.ViewModel"
              xmlns:InputControl="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              x:Class="QuizApp.View.MainPage">
+    <ContentPage.BindingContext>
+        <local:MainPageVm />
+    </ContentPage.BindingContext>
     <StackLayout Padding="20">
-        <StackLayout x:Name="parameters" Spacing="20">
+        <StackLayout x:Name="parameters" Spacing="20" IsVisible="{Binding ParameterIsVisible}">
 
-            <InputControl:CheckBox x:Name="box" BorderColor="DodgerBlue" Text="Use Token to generate questions" CheckChanged="TokenEvent" HorizontalOptions="End" />
+            <InputControl:CheckBox x:Name="box" BorderColor="DodgerBlue" Text="Use Token to generate questions" CheckChangedCommand="{Binding Path=GetToken}" HorizontalOptions="End" />
 
             <StackLayout Spacing="0" >
                 <Label Text="{Binding Source={x:Reference questions}, Path=Value,StringFormat='Number of Questions: {0}'}" TextColor="Black" />
@@ -37,16 +40,16 @@
                 </Picker.ItemsSource>
             </Picker>
 
-            <Button Text="Get Questions" CornerRadius="16" BackgroundColor="DodgerBlue" TextColor="White" Clicked="GenerateTrivia" HorizontalOptions="Center" />
+            <Button Text="Get Questions" CornerRadius="16" BackgroundColor="DodgerBlue" TextColor="White" Command="{Binding Path=GenerateTrivia}" HorizontalOptions="Center" />
         </StackLayout>
 
-        <StackLayout x:Name="token" IsVisible="False" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+        <StackLayout x:Name="token" IsVisible="{Binding TokenIsVisible}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
             <ActivityIndicator Color="DodgerBlue" IsRunning="True" VerticalOptions="Center" HorizontalOptions="Center" />
             <Label Text="Generating Token" TextColor="DodgerBlue" HorizontalOptions="Center" 
                    VerticalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
         </StackLayout>
 
-        <StackLayout x:Name="question" IsVisible="False" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+        <StackLayout x:Name="question" IsVisible="{Binding QuestionIsVisble}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
             <ActivityIndicator Color="DodgerBlue" IsRunning="True" VerticalOptions="Center" HorizontalOptions="Center" />
             <Label Text="Generating Questions" TextColor="DodgerBlue" HorizontalOptions="Center" 
                    VerticalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />

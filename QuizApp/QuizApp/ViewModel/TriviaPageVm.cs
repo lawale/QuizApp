@@ -14,11 +14,13 @@ namespace QuizApp.ViewModel
         public IList<TrivialVm> Questions { get; }
         public ICommand SelectAnswer { get; }
         public ICommand Submit { get; }
+        private INavigationService navigationService;
         private Dictionary<TrivialVm, string> Answers;
 
         public TriviaPageVm()
         {
             Answers = new Dictionary<TrivialVm, string>();
+            navigationService = DependencyService.Get<INavigationService>();
             Questions = DependencyService.Get<IRestService>().Questions.ChangeModel(TrivialVm.ConvertFrom);
             Submit = new Command(async () => await ComputeScore());
             SelectAnswer = new Command<(TrivialVm, string)>(AnswerSelected);
@@ -34,13 +36,20 @@ namespace QuizApp.ViewModel
                 if (answer.Key.CorrectAnswer == answer.Value)
                     score++;
             }
-            await Application.Current.MainPage.DisplayAlert("Score", $"You have scored {score}", "OK");
-            await Application.Current.MainPage.Navigation.PopAsync();
+            await navigationService.DisplayAlert("Score", $"You have scored {score}", "OK");
+            await navigationService.PopPage();
         }
         
+        /// <summary>
+        /// This method is called when an Answer is selected.
+        /// </summary>
+        /// <param name="input">ValueTuple of TrivialVm and string</param>
         private void AnswerSelected( (TrivialVm, string) input )
         {
+            //deconstruct input argument
             var (key, value) = input;
+
+            //check if question already stored in dictionary
             if (Answers.ContainsKey(key))
                 Answers[key] = value;
             else
